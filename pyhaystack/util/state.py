@@ -9,6 +9,25 @@ from threading import Event
 
 from .asyncexc import AsynchronousException
 
+# Support for asyncio
+try:
+    from collections.abc import Awaitable
+    from asyncio.futures import Future
+
+    HAVE_FUTURE = 'asyncio'
+    _HaystackOperationBase = Awaitable
+except ImportError:
+    HAVE_FUTURE = None
+    _HaystackOperationBase = object
+
+if HAVE_FUTURE is None:
+    # Try Tornado
+    try:
+        from tornado.concurrent import Future
+        HAVE_FUTURE = 'tornado'
+    except ImportError:
+        pass
+
 
 class NotReadyError(Exception):
     """
@@ -19,7 +38,7 @@ class NotReadyError(Exception):
     pass
 
 
-class HaystackOperation(object):
+class HaystackOperation(_HaystackOperationBase):
     """
     A core state machine object.  This implements the basic interface presented
     for all operations in pyhaystack.
@@ -65,6 +84,38 @@ class HaystackOperation(object):
         deadlock.
         """
         self._done_evt.wait(timeout)
+
+    if HAVE_FUTURE == 'asyncio':
+        def __await__(self):
+            """
+            Return a future object which can be awaited by asyncio-aware
+            tools like ipython and in asynchronous scripts.
+            """
+            res = yield from self.future
+            return res
+
+    @property
+    def future(self):
+        """
+        Return a Future object (asyncio or Tornado).
+        """
+        if HAVE_FUTURE is None:
+            raise NotImplementedError(
+                'Futures require either asyncio and/or Tornado to work'
+            )
+
+        # Both Tornado and asyncio future classes work the same.
+        future = Future()
+        if self.is_done:
+            self._set_future(future)
+        else:
+            # Not done yet, wait for it
+            def _on_done(*a, **kwa):
+                self._set_future(future)
+            self.done_sig.connect(_on_done)
+
+        # Return the future for the caller
+        return future
 
     @property
     def state(self):
@@ -127,3 +178,14 @@ class HaystackOperation(object):
         self._result = result
         self._done_evt.set()
         self.done_sig.emit(operation=self)
+
+    def _set_future(self, future):
+        """
+        Set the given future to the operation result, if known
+        or raise an exception otherwise.
+        """
+        # It's already done
+        try:
+            future.set_result(self.result)
+        except Exception as e:
+            future.set_exception(e)
