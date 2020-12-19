@@ -3,7 +3,7 @@
 State machine interface.  This is a base class for implementing state machines.
 """
 
-from copy import deepcopy
+from copy import copy, deepcopy
 from signalslot import Signal
 from threading import Event
 
@@ -152,7 +152,7 @@ class BaseHaystackOperation(object):
             return deepcopy(self._result)
         else:
             # Return a shallow copy
-            return self._result.copy()
+            return copy(self._result)
 
     def __repr__(self):
         """
