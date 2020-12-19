@@ -66,7 +66,7 @@ class BaseHaystackOperation(object):
         self._result_copy = result_copy
         self._result_deepcopy = result_deepcopy
 
-    def go(self):
+    def go(self): # pragma: no cover
         """
         Start processing the operation.  This is called by the caller (so after
         all __init__ functions have executed) in order to begin the asynchronous
