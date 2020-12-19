@@ -32,10 +32,10 @@ setup(
         "semver",
         "certifi",
     ],
-    extras_require=[
+    extras_require={
         'pandas': ['pandas'],
         'tornado': ['tornado>=4.0']
-    ],
+    },
     packages=[
         "pyhaystack",
         "pyhaystack.client",
