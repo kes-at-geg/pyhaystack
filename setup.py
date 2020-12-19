@@ -5,6 +5,7 @@ Setup file for pyhaystack
 import pyhaystack.info as info
 
 from setuptools import setup
+from sys import version_info
 
 import os
 
@@ -54,7 +55,12 @@ setup(
         "pyhaystack.util",
         "pyhaystack.server",
         "pyhaystack.util",
-    ],
+    ] + (
+        # Python 3 only packages
+        [
+            "pyhaystack.util.awaitable",
+        ] if version_info.major >= 3 else []
+    ),
     long_description=open("README.rst").read(),
     classifiers=[
         "Development Status :: 4 - Beta",

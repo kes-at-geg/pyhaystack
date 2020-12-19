@@ -3,7 +3,7 @@
 State machine interface.  This is a base class for implementing state machines.
 """
 
-from .operation import BaseHaystackOperation
+from ..operation import BaseHaystackOperation
 from collections.abc import Awaitable
 
 

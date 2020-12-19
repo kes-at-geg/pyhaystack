@@ -13,7 +13,7 @@ from asyncio import new_event_loop, ensure_future
 
 from six import reraise
 
-from pyhaystack.util.awaitableop import HaystackOperation
+from pyhaystack.util.awaitable.operation import HaystackOperation
 
 
 # Make a sub-class that we can test against.
