@@ -17,6 +17,8 @@ install:
 - pip install coveralls
 - pip install pytest
 - pip install pytest-cov
+- pip install numpy
+- pip install tornado
 script:
 #- nosetests --with-coverage --cover-package=pyhaystack -v
 - python setup.py install
