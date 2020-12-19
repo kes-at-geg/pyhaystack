@@ -9,15 +9,19 @@ from threading import Event
 
 from .asyncexc import AsynchronousException
 
+# Exclude the imports below from coverage, as we can't exercise all code paths
+# in unit tests, and Python 3.3+ ships with asyncio.futures, so will always
+# execute this code path ignoring the Tornado support.
+
 # Support for asyncio
-try:
+try: # pragma: no cover
     from asyncio.futures import Future
 
     HAVE_FUTURE = 'asyncio'
-except ImportError:
+except ImportError: # pragma: no cover
     HAVE_FUTURE = None
 
-if HAVE_FUTURE is None:
+if HAVE_FUTURE is None: # pragma: no cover
     # Try Tornado
     try:
         from tornado.concurrent import Future
@@ -86,7 +90,10 @@ class BaseHaystackOperation(object):
         """
         Return a Future object (asyncio or Tornado).
         """
-        if HAVE_FUTURE is None:
+        # Exclude this if-statement from coverage as it's only older Python 2
+        # users that are likely to encounter this and we can't control this
+        # branch in a unit test context anyway.
+        if HAVE_FUTURE is None: # pragma: no cover
             raise NotImplementedError(
                 'Futures require either asyncio and/or Tornado (>=4) to work'
             )

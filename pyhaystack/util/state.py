@@ -10,9 +10,11 @@ from .asyncexc import AsynchronousException
 assert NotReadyError
 assert BaseHaystackOperation
 
-
-if HAVE_FUTURE == 'asyncio':
+# Exclude these branches from coverage as it's likely the
+# `HAVE_FUTURE == 'asyncio'` branch will only work on Python 3 (and will always
+# work there) whereas Python 2.7 will never trigger this branch.
+if HAVE_FUTURE == 'asyncio': # pragma: no cover
     from .awaitableop import HaystackOperation
-else:
+else: # pragma: no cover
     class HaystackOperation(BaseHaystackOperation):
         pass
