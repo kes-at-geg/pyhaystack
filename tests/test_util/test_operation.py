@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Tests for WideSky session object
+Tests for BaseHaystackOperation object
 """
 
 # Assume unicode literals as per Python 3
