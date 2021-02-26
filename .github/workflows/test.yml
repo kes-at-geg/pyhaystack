@@ -84,4 +84,6 @@ jobs:
         pip install .
     - name: Make Package
       run: |
-        bash mkdeb.sh
+        export OUT_DIR=/mnt/dist
+        export DEB_BUILD_OPTIONS=nocheck
+        bash -ex mkdeb.sh
