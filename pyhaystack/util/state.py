@@ -13,8 +13,9 @@ assert BaseHaystackOperation
 # Exclude these branches from coverage as it's likely the
 # `HAVE_FUTURE == 'asyncio'` branch will only work on Python 3 (and will always
 # work there) whereas Python 2.7 will never trigger this branch.
-if HAVE_FUTURE == 'asyncio': # pragma: no cover
+if HAVE_FUTURE == "asyncio":  # pragma: no cover
     from .awaitable.operation import HaystackOperation
-else: # pragma: no cover
+else:  # pragma: no cover
+
     class HaystackOperation(BaseHaystackOperation):
         pass

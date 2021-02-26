@@ -33,10 +33,7 @@ setup(
         "semver",
         "certifi",
     ],
-    extras_require={
-        'pandas': ['pandas'],
-        'tornado': ['tornado>=4.0']
-    },
+    extras_require={"pandas": ["pandas"], "tornado": ["tornado>=4.0"]},
     packages=[
         "pyhaystack",
         "pyhaystack.client",
@@ -55,11 +52,12 @@ setup(
         "pyhaystack.util",
         "pyhaystack.server",
         "pyhaystack.util",
-    ] + (
+    ]
+    + (
         # Python 3 only packages
-        [
-            "pyhaystack.util.awaitable",
-        ] if version_info.major >= 3 else []
+        ["pyhaystack.util.awaitable"]
+        if version_info.major >= 3
+        else []
     ),
     long_description=open("README.rst").read(),
     classifiers=[

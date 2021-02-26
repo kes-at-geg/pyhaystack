@@ -12,4 +12,5 @@ elif version_info.minor < 5:
     pass
 else:
     from .awaitableop import TestHaystackOperationAwait
+
     assert TestHaystackOperationAwait

@@ -18,12 +18,8 @@ from pyhaystack.util.awaitable.operation import HaystackOperation
 
 # Make a sub-class that we can test against.
 class TestHaystackOperation(HaystackOperation):
-    def __init__(self, state_machine, on_go,
-            result_copy=True, result_deepcopy=True
-    ):
-        super(TestHaystackOperation, self).__init__(
-                result_copy, result_deepcopy
-        )
+    def __init__(self, state_machine, on_go, result_copy=True, result_deepcopy=True):
+        super(TestHaystackOperation, self).__init__(result_copy, result_deepcopy)
         self._state_machine = state_machine
         self._on_go = on_go
 
@@ -44,13 +40,13 @@ class CopyableDummyResult(DummyResult):
 
     def __copy__(self):
         c = CopyableDummyResult(self)
-        c.copied = 'shallow'
+        c.copied = "shallow"
         return c
 
     def __deepcopy__(self, memo):
         c = CopyableDummyResult(self)
         c.parent = self
-        c.copied = 'deep'
+        c.copied = "deep"
         return c
 
 
@@ -58,6 +54,7 @@ class TestHaystackOperationAwait(object):
     """
     Test the awaitable Operation class works as expected.
     """
+
     def test_await_not_done(self):
         """
         Test that awaiting an operation works as expected.
@@ -67,10 +64,12 @@ class TestHaystackOperationAwait(object):
 
         # The dummy result
         RESULT = DummyResult()
+
         def _on_go(op):
             def _on_timeout():
                 op._state_machine.finished = True
                 op._done(RESULT)
+
             ioloop.call_later(1.0, _on_timeout)
 
         # Mock state machine
@@ -92,12 +91,12 @@ class TestHaystackOperationAwait(object):
             try:
                 # Kick things off, we shouldn't be done yet.
                 op.go()
-                assert op._result is None, 'Should not be done yet'
+                assert op._result is None, "Should not be done yet"
 
-                result['success'] = await op.future
+                result["success"] = await op.future
             except:
                 # Ooopsie
-                result['error'] = exc_info()
+                result["error"] = exc_info()
             finally:
                 # Finish up the IO loop
                 ioloop.call_soon(ioloop.stop)
@@ -109,7 +108,7 @@ class TestHaystackOperationAwait(object):
                 ensure_future(_test_coroutine())
             except:
                 # Finish up the IO loop early!
-                result['error'] = exc_info()
+                result["error"] = exc_info()
                 ioloop.call_soon(ioloop.stop)
                 done.set()
 
@@ -120,8 +119,8 @@ class TestHaystackOperationAwait(object):
         thread.join()
 
         # Did we succeed?
-        if 'error' in result:
+        if "error" in result:
             # Nope
-            reraise(*result['error'])
+            reraise(*result["error"])
 
-        assert result['success'] is RESULT
+        assert result["success"] is RESULT

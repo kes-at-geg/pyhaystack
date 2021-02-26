@@ -14,18 +14,19 @@ from .asyncexc import AsynchronousException
 # execute this code path ignoring the Tornado support.
 
 # Support for asyncio
-try: # pragma: no cover
+try:  # pragma: no cover
     from asyncio.futures import Future
 
-    HAVE_FUTURE = 'asyncio'
-except ImportError: # pragma: no cover
+    HAVE_FUTURE = "asyncio"
+except ImportError:  # pragma: no cover
     HAVE_FUTURE = None
 
-if HAVE_FUTURE is None: # pragma: no cover
+if HAVE_FUTURE is None:  # pragma: no cover
     # Try Tornado
     try:
         from tornado.concurrent import Future
-        HAVE_FUTURE = 'tornado'
+
+        HAVE_FUTURE = "tornado"
     except ImportError:
         pass
 
@@ -35,6 +36,7 @@ class NotReadyError(Exception):
     Exception raised when an attempt is made to retrieve the result of an
     operation before it is ready.
     """
+
     pass
 
 
@@ -66,7 +68,7 @@ class BaseHaystackOperation(object):
         self._result_copy = result_copy
         self._result_deepcopy = result_deepcopy
 
-    def go(self): # pragma: no cover
+    def go(self):  # pragma: no cover
         """
         Start processing the operation.  This is called by the caller (so after
         all __init__ functions have executed) in order to begin the asynchronous
@@ -93,9 +95,9 @@ class BaseHaystackOperation(object):
         # Exclude this if-statement from coverage as it's only older Python 2
         # users that are likely to encounter this and we can't control this
         # branch in a unit test context anyway.
-        if HAVE_FUTURE is None: # pragma: no cover
+        if HAVE_FUTURE is None:  # pragma: no cover
             raise NotImplementedError(
-                'Futures require either asyncio and/or Tornado (>=4) to work'
+                "Futures require either asyncio and/or Tornado (>=4) to work"
             )
 
         # Both Tornado and asyncio future classes work the same.
@@ -106,6 +108,7 @@ class BaseHaystackOperation(object):
             # Not done yet, wait for it
             def _on_done(*a, **kwa):
                 self._set_future(future)
+
             self.done_sig.connect(_on_done)
 
         # Return the future for the caller

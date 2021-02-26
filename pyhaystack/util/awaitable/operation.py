@@ -12,6 +12,7 @@ class HaystackOperation(BaseHaystackOperation, Awaitable):
     Awaitable version of BaseHaystackOperation.  This is provided for later
     versions of Python 3 (3.5 and up) that support the `await` keyword.
     """
+
     def __await__(self):
         """
         Return a future object which can be awaited by asyncio-aware
