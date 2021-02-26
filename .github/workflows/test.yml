@@ -54,41 +54,41 @@ jobs:
 #        GITHUB_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
 #        COVERALLS_FLAG_NAME: ${{ matrix.test-name }}
 
-  MakeDebianPackage:
-    name: Make a Debian Package
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.9]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install python3-all
-        sudo apt-get install debhelper
-        sudo apt-get install python3-setuptools
-        python -m pip install --upgrade pip
-        pip install six
-        pip install parsimonious
-        pip install iso8601
-        pip install hszinc
-        pip install pytz
-        pip install flake8
-        pip install coveralls
-        pip install pytest
-        pip install pytest-cov
-        pip install pandas
-        pip install stdeb
-        pip install wheel
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        pip install .
-    - name: Make Package
-      run: |
-        export OUT_DIR=/mnt/dist
-        export DEB_BUILD_OPTIONS=nocheck
-        bash -ex mkdeb.sh
+#  MakeDebianPackage:
+#    name: Make a Debian Package
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        python-version: [3.9]
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Set up Python ${{ matrix.python-version }}
+#      uses: actions/setup-python@v2
+#      with:
+#        python-version: ${{ matrix.python-version }}
+#    - name: Install dependencies
+#      run: |
+#        sudo apt-get update
+#        sudo apt-get install python3-all
+#        sudo apt-get install debhelper
+#        sudo apt-get install python3-setuptools
+#        python -m pip install --upgrade pip
+#        pip install six
+#        pip install parsimonious
+#        pip install iso8601
+#        pip install hszinc
+#        pip install pytz
+#        pip install flake8
+#        pip install coveralls
+#        pip install pytest
+#        pip install pytest-cov
+#        pip install pandas
+#        pip install stdeb
+#        pip install wheel
+#        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+#        pip install .
+#    - name: Make Package
+#      run: |
+#        export OUT_DIR=/mnt/dist
+#        export DEB_BUILD_OPTIONS=nocheck
+#        bash -ex mkdeb.sh
