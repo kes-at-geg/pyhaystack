@@ -3,7 +3,7 @@
 set -e
 
 : ${MY_DIR:=$( dirname "$0" )}
-: ${PYTHON:=$( which python2 )}
+: ${PYTHON:=$( which python3 )}
 
 : ${BUILD_PY2:=False}
 : ${BUILD_PY3:=True}
