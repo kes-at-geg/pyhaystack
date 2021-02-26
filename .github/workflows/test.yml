@@ -71,7 +71,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install python3-all
         sudo apt-get install debhelper
-        sudo apt-get install python3-setuptools python3-signalslot python-hszinc python3-hszinc python-signalslot
+        sudo apt-get install python3-setuptools
         python -m pip install --upgrade pip
         pip install six
         pip install parsimonious
