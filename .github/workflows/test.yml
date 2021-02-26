@@ -68,6 +68,8 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
+        sudo apt-get install python3-all
+        sudo apt-get install debhelper
         python -m pip install --upgrade pip
         pip install six
         pip install parsimonious
