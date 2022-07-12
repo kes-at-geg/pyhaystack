@@ -555,6 +555,7 @@ class HaystackSession(object):
     ):
         grid = hszinc.Grid()
         grid.metadata["id"] = self._obj_to_ref(point)
+        grid.metadata["noWarn"] = hszinc.MARKER
         grid.column["ts"] = {}
         grid.column["val"] = {}
 
