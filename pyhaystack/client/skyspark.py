@@ -55,6 +55,8 @@ class SkysparkHaystackSession(HaystackSession, evalexpr.EvalOpsMixin):
             cookies = operation.result
             self._authenticated = True
             self._client.cookies = cookies
+            print(cookies)
+            
         except:
             self._authenticated = False
             self._client.cookies = None
@@ -100,6 +102,16 @@ class SkysparkScramHaystackSession(HaystackSession, evalexpr.EvalOpsMixin):
         Return true if the user is logged in.
         """
         return self._authenticated
+        
+    def get_authToken(self):
+        return self._authToken
+        
+    def get_attestKey(self):
+        return self._attestKey
+        
+        
+    def get_clientheaders(self):
+        return self._client.headers
 
     # Private methods/properties
     # For _get_grid, _post_grid, wrap the superclass version with a version
